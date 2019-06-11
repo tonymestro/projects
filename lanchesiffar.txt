@@ -1,0 +1,186 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.4
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: 06-Jun-2019 às 16:35
+-- Versão do servidor: 5.7.14
+-- PHP Version: 5.6.25
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `lanchesiffar`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `aluno`
+--
+
+CREATE TABLE `aluno` (
+  `matricula` bigint(10) NOT NULL,
+  `nomeAluno` varchar(70) DEFAULT NULL,
+  `foneAluno` varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `aluno`
+--
+
+INSERT INTO `aluno` (`matricula`, `nomeAluno`, `foneAluno`) VALUES
+(123, 'Thiago Cassio', '55111111111'),
+(121212, 'Juliana FÃ©lix', '55999445796'),
+(1049601, 'Toni Montenegro', '55997324660');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `curso`
+--
+
+CREATE TABLE `curso` (
+  `idCurso` int(11) NOT NULL,
+  `nomeCurso` varchar(70) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `lanche`
+--
+
+CREATE TABLE `lanche` (
+  `idLanche` int(11) NOT NULL,
+  `cardapio` varchar(150) DEFAULT NULL,
+  `vlr_unitario` decimal(5,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `lanche`
+--
+
+INSERT INTO `lanche` (`idLanche`, `cardapio`, `vlr_unitario`) VALUES
+(1, 'Bolo de cenoura e café', '5.50');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `reserva`
+--
+
+CREATE TABLE `reserva` (
+  `id_reserva` int(11) NOT NULL,
+  `Aluno_matricula` bigint(10) NOT NULL,
+  `Lanche_idLanche` int(11) NOT NULL,
+  `dataReserva` date DEFAULT NULL,
+  `horaReserva` time DEFAULT NULL,
+  `horaRetirada` time DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `reserva`
+--
+
+INSERT INTO `reserva` (`id_reserva`, `Aluno_matricula`, `Lanche_idLanche`, `dataReserva`, `horaReserva`, `horaRetirada`) VALUES
+(1, 1049601, 1, '2019-05-24', '00:01:36', NULL),
+(2, 1049601, 1, '2019-05-24', '13:45:11', NULL),
+(3, 1049601, 1, '2019-05-24', '18:37:47', NULL),
+(4, 121212, 1, '2019-05-24', '18:38:03', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `turma`
+--
+
+CREATE TABLE `turma` (
+  `codigoTurma` int(11) NOT NULL,
+  `anoIngresso` smallint(4) DEFAULT NULL,
+  `turno` char(1) DEFAULT NULL,
+  `Aluno_matricula` bigint(10) NOT NULL,
+  `Curso_idCurso` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `aluno`
+--
+ALTER TABLE `aluno`
+  ADD PRIMARY KEY (`matricula`),
+  ADD UNIQUE KEY `matricula_UNIQUE` (`matricula`);
+
+--
+-- Indexes for table `curso`
+--
+ALTER TABLE `curso`
+  ADD PRIMARY KEY (`idCurso`);
+
+--
+-- Indexes for table `lanche`
+--
+ALTER TABLE `lanche`
+  ADD PRIMARY KEY (`idLanche`);
+
+--
+-- Indexes for table `reserva`
+--
+ALTER TABLE `reserva`
+  ADD PRIMARY KEY (`id_reserva`),
+  ADD KEY `fk_Aluno_has_Lanche_Lanche1_idx` (`Lanche_idLanche`),
+  ADD KEY `fk_Aluno_has_Lanche_Aluno1_idx` (`Aluno_matricula`);
+
+--
+-- Indexes for table `turma`
+--
+ALTER TABLE `turma`
+  ADD PRIMARY KEY (`codigoTurma`),
+  ADD KEY `fk_Turma_Aluno_idx` (`Aluno_matricula`),
+  ADD KEY `fk_Turma_Curso1_idx` (`Curso_idCurso`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `lanche`
+--
+ALTER TABLE `lanche`
+  MODIFY `idLanche` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `reserva`
+--
+ALTER TABLE `reserva`
+  MODIFY `id_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Limitadores para a tabela `reserva`
+--
+ALTER TABLE `reserva`
+  ADD CONSTRAINT `fk_Aluno_has_Lanche_Aluno1` FOREIGN KEY (`Aluno_matricula`) REFERENCES `aluno` (`matricula`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Aluno_has_Lanche_Lanche1` FOREIGN KEY (`Lanche_idLanche`) REFERENCES `lanche` (`idLanche`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Limitadores para a tabela `turma`
+--
+ALTER TABLE `turma`
+  ADD CONSTRAINT `fk_Turma_Aluno` FOREIGN KEY (`Aluno_matricula`) REFERENCES `aluno` (`matricula`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Turma_Curso1` FOREIGN KEY (`Curso_idCurso`) REFERENCES `curso` (`idCurso`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
