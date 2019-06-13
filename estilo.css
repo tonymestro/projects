@@ -179,3 +179,33 @@ fieldset {
 .botao :active {
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
 }
+
+.modal{
+  top: 0; 
+  left: 0;
+  position: absolute;
+  z-index: 999;
+  background-color: #4CAF50;
+  height: 100vh;
+  width: 100vw;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap; 
+  align-content: center;
+}
+
+.modal p{
+  font-size: 50px;
+  line-height: 1em;
+  color:white;
+  text-align: left;
+}
+
+#identificacao {
+  text-align: center;
+}
+
+.modal hr{
+    border: 2px solid white;
+}
