@@ -2,7 +2,7 @@
 date_default_timezone_set('America/Sao_Paulo');
 
 //inicia a sessão e define como uma
-//sessão unica setando o id
+//sessão unica para todos setando o id
 session_id("session1");
 session_start();
 
