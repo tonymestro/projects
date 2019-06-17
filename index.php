@@ -56,20 +56,13 @@
             matricula: matricula
           },
           dataType: "JSON",
-          //se for sucesso chama o modal (muda o display para flex)
-          //exibe o nome do aluno/matricula e a mensagem
-          //nos paragrafos e após 3 segundo fecha o modal 
-          //(muda o display para none)
+          //se for sucesso chama a função
+          //para exibir o modal
           success: function(response) {
-            $("#modal").css('display', 'flex');
-            $("#identificacao").text(response.identificacao);
-            $("#mensagem").text(response.mensagem);
-            setTimeout(function() {
-              $("#modal").css('display', 'none');
-            }, 3000)
+            display(response);
           },
-          //se ocorrer um erro exibe-o como tabela no
-          //console do navegador
+          //se ocorrer um erro exibe-o como
+          //tabela no console do navegador
           error: function(error) {
             console.table(error);
           }
@@ -79,6 +72,45 @@
         //apenas pelo ajax
         return false;
       });
+
+      //a cada ~3 segundos o ajax
+      //verifica o arquivo para pegar
+      //os dados
+      setInterval(function() {
+        $.ajax({
+          url: "json_ajax.php",
+          dataType: "JSON",
+          //se for sucesso chama a função
+          //para exibir o modal
+          success: function(response) {
+            display(response);
+          },
+          //se ocorrer um erro exibe-o como 
+          //tabela no console do navegador
+          error: function(error) {
+            console.table('erro');
+          }
+        });
+      }, 3500);
+
+      //função para chamar o modal (muda o display para flex)
+      //exibe o nome do aluno/matricula e a mensagem
+      //desabilita o botão de enviar e o input
+      //nos paragrafos e após 3 segundo fecha o modal 
+      //(muda o display para none), reabilita novamente
+      //o botão e o input e ativa novamente o focus
+      function display(response) {
+        $("#modal").css("display", "flex");
+        $("#identificacao").text(response.identificacao);
+        $("#mensagem").text(response.mensagem);
+        $("button[name=submit], input[name=matricula]").prop("disabled", true);
+        setTimeout(function() {
+          $("#modal").css("display", "none");
+          $("button[name=submit], input[name=matricula]").prop("disabled", false);
+          $("input[name=matricula]").focus();
+        }, 3000);
+      }
+
     });
   </script>
 </body>

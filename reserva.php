@@ -18,7 +18,7 @@ if (mysqli_num_rows($verifica) == 0) {
     // echo "<script>alert('Matricula não encontrada! Tente novamente...');". 
     // "javascript:window.location='index.php';</script>";
 
-    //se o aluno não existir passa a matrícula e a mensagem para o ajax
+    //se o aluno não existir passa a matrícula e a mensagem de resposta para o ajax
     echo json_encode(array('identificacao' => $matriculaReserva, 'mensagem' => 'Matricula não encontrada! Tente novamente...'));
 
     //echo mysqli_error($connection);
@@ -48,7 +48,7 @@ if (mysqli_num_rows($verifica) == 0) {
             // echo "<script>alert('Horário limite para reserva esgotado! :(');". 
             // "javascript:window.location='index.php';</script>";
 
-            //passa pro ajax o resultado do if exibindo o nome do aluno e a mensagem
+            //passa pro ajax o resultado do if exibindo o nome do aluno e a mensagem de resposta
             echo json_encode(array('identificacao' => $aluno['nomeAluno'], 'mensagem' => 'Horário limite para reserva esgotado! :('));
         } else {
 
@@ -63,7 +63,7 @@ if (mysqli_num_rows($verifica) == 0) {
                 // echo "<script>alert('Reserva feita com sucesso!');". 
                 //     "javascript:window.location='index.php';</script>";
 
-                //passa pro ajax o resultado do if exibindo o nome do aluno e a mensagem
+                //passa pro ajax o resultado do if exibindo o nome do aluno e a mensagem de resposta
                 echo json_encode(array('identificacao' => $aluno['nomeAluno'], 'mensagem' => 'Reserva feita com sucesso!'));
             } else {
 
@@ -72,7 +72,7 @@ if (mysqli_num_rows($verifica) == 0) {
                 //echo "<script>alert('Não reservou :( !');".
                 //"javascript:window.location='index.php';</script>";
 
-                //passa pro ajax o resultado do if exibindo o nome do aluno e a mensagem
+                //passa pro ajax o resultado do if exibindo o nome do aluno e a mensagem de resposta
                 echo json_encode(array('identificacao' => $aluno['nomeAluno'], 'mensagem' => 'Não reservou :( !'));
 
                 // mata a execução do php
@@ -84,7 +84,7 @@ if (mysqli_num_rows($verifica) == 0) {
         //  echo "<script>alert('Reserva para este aluno já foi feita hoje!');". 
         //         "javascript:window.location='index.php';</script>";
 
-        //passa pro ajax o resultado do if exibindo o nome do aluno
+        //passa pro ajax o resultado do if exibindo o nome do aluno e a mensagem de resposta
         echo json_encode(array('identificacao' => $aluno['nomeAluno'], 'mensagem' => 'Reserva para este aluno já foi feita hoje!'));
     }
 } //FECHA TODOS OS TESTES
