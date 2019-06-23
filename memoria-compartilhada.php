@@ -1,12 +1,18 @@
 <?php 
 
-$dados = '';
-function createMemory($ip, $message){
-    $key = $ip;
-    $memory = shmop_open($key, "c", 0600, 16 * 1024);
-    $data = $message;
-    $bytes = shmop_write($memory, serialize($data), 0);
-    // $return = shmop_read($memory, 0, $bytes);
-    // $dados = unserialize($return);
-    // echo json_encode($dados);
+//função para criar memória compartilhada
+//recebe como parametro a chave da memória
+//e a mensagem que queira guardar (array)
+function createMemory($key, $message){
+    //transforma a mensagem de array
+    //para um string em formato de json
+    $data_json = json_encode($message);
+    //abre um espaço na memoria com o 
+    //nome/chave passado como parametro
+    $memory = shm_attach($key);
+    //coloca na memoria aberta o nome da 
+    //variavel e o valor 
+    shm_put_var($memory, $key, $data_json);
+    //fecha a memoria aberta
+    shm_detach($memory);
 }

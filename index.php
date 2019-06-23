@@ -55,11 +55,12 @@
           data: {
             matricula: matricula
           },
-          dataType: "JSON",
+          // dataType: "JSON",
           //se for sucesso chama a função
           //para exibir o modal
           success: function(response) {
-            display(response);
+            // display(response);
+            console.table(response);
           },
           //se ocorrer um erro exibe-o como
           //tabela no console do navegador
@@ -78,21 +79,21 @@
       //os dados
       setInterval(function() {
         $.ajax({
-          url: "recuperar-mc.php",
+          url: "recupera-mc.php",
           dataType: "JSON",
           //se for sucesso chama a função
           //para exibir o modal
           success: function(response) {
             display(response);
-            // console.log(response);
+            console.log(response);
           },
           //se ocorrer um erro exibe-o como 
           //tabela no console do navegador
           error: function(error) {
-            console.table('erro');
+            console.table(error);
           }
         });
-      }, 3500);
+      }, 3100);
 
       //função para chamar o modal (muda o display para flex)
       //exibe o nome do aluno/matricula e a mensagem
