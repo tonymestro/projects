@@ -6,9 +6,14 @@ date_default_timezone_set('America/Sao_Paulo');
 session_id("session1");
 session_start();
 
-// conecta ao banco de dados lanches
+//chama o arquivo para trabalhar com a memória compartilhada
+require_once 'memoria-compartilhada.php';
 
+// conecta ao banco de dados lanches
 include "conexao.php";
+
+//recebe ip do usuario
+$ip = str_replace('.', '', $_SERVER['REMOTE_ADDR']);
 
 //recebe TAG do aluno
 $tag = $_GET['tag'];
@@ -33,7 +38,7 @@ if (mysqli_num_rows($verifica) == 0) {
     // echo "matricula_nao_encontrada";
 
     //cria uma seção com o resultado do if exibindo o nome do aluno e a mensagem de resposta
-    $_SESSION['json'] = array('identificacao' => $tag, 'mensagem' => 'Tag não encontrada! Certifique-se de estar cadastrada...');
+    $message = array('identificacao' => $tag, 'mensagem' => 'Tag não encontrada! Certifique-se de estar cadastrada...');
 
     die();
 } else { // ACHOU ALUNO
@@ -62,7 +67,7 @@ if (mysqli_num_rows($verifica) == 0) {
             // echo "horario_limite_ultrapassado"; //mensagem ao NODEMCU/ARDUINO
 
             //cria uma seção com o resultado do if exibindo o nome do aluno e a mensagem de resposta
-            $_SESSION['json'] = array('identificacao' => $nomeDesseAluno, 'mensagem' => 'Horário limite para reserva esgotado! :(');
+            $message = array('identificacao' => $nomeDesseAluno, 'mensagem' => 'Horário limite para reserva esgotado! :(');
 
         } else {
 
@@ -79,7 +84,7 @@ if (mysqli_num_rows($verifica) == 0) {
                 // echo "salvo_com_sucesso";
 
                 //cria uma seção com o resultado do if exibindo o nome do aluno e a mensagem de resposta
-                $_SESSION['json'] = array('identificacao' => $nomeDesseAluno, 'mensagem' => 'Reserva feita com sucesso!');
+                $message = array('identificacao' => $nomeDesseAluno, 'mensagem' => 'Reserva feita com sucesso!');
 
             } else {
 
@@ -91,7 +96,7 @@ if (mysqli_num_rows($verifica) == 0) {
                 //echo "erro_ao_salvar"; //mensagem ao NODEMCU/ARDUINO
 
                 //cria uma seção com o resultado do if exibindo o nome do aluno e a mensagem de resposta
-                $_SESSION['json'] = array('identificacao' => $nomeDesseAluno, 'mensagem' => 'Não reservou :( !');
+                $message = array('identificacao' => $nomeDesseAluno, 'mensagem' => 'Não reservou :( !');
 
                 // mata a execução do php
                 die();
@@ -105,11 +110,11 @@ if (mysqli_num_rows($verifica) == 0) {
         //echo "ja_requisitado"; //mensagem ao NODEMCU/ARDUINO
 
         //cria uma seção com o resultado do if exibindo o nome do aluno e a mensagem de resposta
-        $_SESSION['json'] = array('identificacao' => $nomeDesseAluno, 'mensagem' => 'Reserva para este aluno já foi feita hoje!');
+        $message = array('identificacao' => $nomeDesseAluno, 'mensagem' => 'Reserva para este aluno já foi feita hoje!');
     }
 } //FECHA TODOS OS TESTES
 
-
+echo createMemory($ip, $message);
 
 // fecha a conexão com o banco de dados
 mysqli_close($connection);

@@ -78,12 +78,13 @@
       //os dados
       setInterval(function() {
         $.ajax({
-          url: "json_ajax.php",
+          url: "recuperar-mc.php",
           dataType: "JSON",
           //se for sucesso chama a função
           //para exibir o modal
           success: function(response) {
             display(response);
+            // console.log(response);
           },
           //se ocorrer um erro exibe-o como 
           //tabela no console do navegador
